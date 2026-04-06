@@ -112,8 +112,8 @@ function FeatureCard({ feature, index }: { feature: { number: string; title: str
         <div className="shrink-0"><span className="font-mono text-sm text-muted-foreground">{feature.number}</span></div>
         <div className="flex-1 grid lg:grid-cols-2 gap-8 items-center">
           <div>
-            <h3 className="text-3xl lg:text-4xl font-display mb-4 group-hover:translate-x-2 transition-transform duration-500">{feature.title}</h3>
-            <p className="text-lg text-muted-foreground leading-relaxed">{feature.description}</p>
+            <h3 className="text-3xl lg:text-4xl font-display mb-4 text-slate-900 group-hover:translate-x-2 transition-transform duration-500">{feature.title}</h3>
+            <p className="text-lg text-slate-700 leading-relaxed">{feature.description}</p>
           </div>
           <div className="flex justify-center lg:justify-end">
             <div className="w-48 h-40 text-foreground"><AnimatedVisual type={feature.visual} /></div>
@@ -149,10 +149,10 @@ export function FeaturesSection() {
             <span className="w-8 h-px bg-foreground/30" />
             {t("features.eyebrow")}
           </span>
-          <h2 className={`text-3xl sm:text-4xl lg:text-6xl font-display tracking-tight transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          <h2 className={`text-3xl sm:text-4xl lg:text-6xl font-display tracking-tight text-slate-950 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             {t("features.title1")}
             <br />
-            <span className="text-muted-foreground">{t("features.title2")}</span>
+            <span className="text-slate-500">{t("features.title2")}</span>
           </h2>
         </div>
         <div>

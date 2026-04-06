@@ -60,12 +60,12 @@ export function AboutUsSection() {
             <span className="w-8 h-px bg-foreground/30" />
             {t("aboutUs.eyebrow")}
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-display tracking-tight leading-[0.95] mb-8 max-w-5xl">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-display tracking-tight leading-[0.95] mb-8 max-w-5xl text-slate-950">
             {t("aboutUs.title1")}
             <br />
-            <span className="text-muted-foreground">{t("aboutUs.title2")}</span>
+            <span className="text-slate-500">{t("aboutUs.title2")}</span>
           </h2>
-          <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-3xl">
+          <p className="text-lg lg:text-xl text-slate-700 leading-relaxed max-w-3xl">
             {t("aboutUs.description")}
           </p>
         </div>
@@ -79,9 +79,9 @@ export function AboutUsSection() {
               }`}
               style={{ transitionDelay: `${index * 120}ms` }}
             >
-              <p className="text-sm font-mono text-muted-foreground mb-6">{point.number}</p>
-              <h3 className="text-2xl font-display mb-4">{point.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{point.description}</p>
+              <p className="text-sm font-mono text-slate-500 mb-6">{point.number}</p>
+              <h3 className="text-2xl font-display mb-4 text-slate-900">{point.title}</h3>
+              <p className="text-slate-700 leading-relaxed">{point.description}</p>
             </article>
           ))}
         </div>

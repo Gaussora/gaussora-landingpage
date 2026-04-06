@@ -45,7 +45,7 @@ export function FooterSection() {
               <a href="#" className="inline-flex items-center gap-2 mb-6">
                 <span className="text-2xl font-display italic">Gaussora</span>
               </a>
-              <p className="text-muted-foreground leading-relaxed mb-8 max-w-xs">{t("footer.description")}</p>
+              <p className="text-slate-700 leading-relaxed mb-8 max-w-xs">{t("footer.description")}</p>
               <div className="flex gap-6">
                 {socialLinks.map((link) => (
                   <a key={link.name} href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 group">

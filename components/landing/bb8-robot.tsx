@@ -3,6 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { useLanguage, type Language } from "@/lib/language-context";
 
 const BB8_PHRASE_POOLS: Record<Language, Record<string, string[]>> = {
@@ -339,7 +342,8 @@ export function BB8Robot() {
     if (!root || !canvasHost) return;
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x0c1322, 0.026);
+    // Lighten the fog for a more "airy" feel
+    scene.fog = new THREE.FogExp2(0x3d4b6b, 0.018);
 
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 500);
     let viewportProfile = getViewportProfile(window.innerWidth, window.innerHeight);
@@ -364,7 +368,29 @@ export function BB8Robot() {
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.18;
+    renderer.setClearColor(0x000000, 0); // Ensure background is transparent
     canvasHost.appendChild(renderer.domElement);
+
+    // Subtle bloom post-processing with transparency support
+    const renderTarget = new THREE.WebGLRenderTarget(
+      window.innerWidth,
+      window.innerHeight,
+      {
+        format: THREE.RGBAFormat,
+        type: THREE.HalfFloatType,
+      }
+    );
+    const composer = new EffectComposer(renderer, renderTarget);
+    const renderPass = new RenderPass(scene, camera);
+    renderPass.clearAlpha = 0; // Don't block the HTML/CSS background
+    composer.addPass(renderPass);
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(window.innerWidth, window.innerHeight),
+      0.25,   // Very gentle glow - strength 0.25
+      0.4,   // Radius
+      0.95   // Threshold 0.95 - only extreme highlights bloom
+    );
+    composer.addPass(bloomPass);
 
     const ambient = new THREE.AmbientLight(0x34466a, 1.55);
     scene.add(ambient);
@@ -596,6 +622,10 @@ export function BB8Robot() {
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height, false);
+      composer.setSize(width, height);
+      // Ensure the render target also updates
+      composer.readBuffer.setSize(width, height);
+      composer.writeBuffer.setSize(width, height);
     };
 
     const setTargetSection = (sectionId: string) => {
@@ -752,7 +782,7 @@ export function BB8Robot() {
 
     const loader = new GLTFLoader();
     loader.load(
-      "/models/bb8.glb",
+      "/models/bb8_ver2.glb",
       (gltf) => {
         if (disposed) return;
         robotGroup = gltf.scene;
@@ -1073,7 +1103,7 @@ export function BB8Robot() {
         currentSceneState.lookZ + travelLookZ
       );
 
-      renderer.render(scene, camera);
+      composer.render();
     };
 
     animate();
